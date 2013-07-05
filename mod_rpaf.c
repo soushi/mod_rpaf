@@ -157,7 +157,7 @@ static int is_in_array(apr_pool_t *pool, const char *remote_ip, apr_array_header
             return 1;
         }
 
-        if (strcmp(remote_ip, list[i]) == 0) {
+        if (strncmp(remote_ip, list[i], strlen(list[i])) == 0) {
             return 1;
         }
     }
