@@ -1,15 +1,16 @@
 #!/bin/sh
-APXS=`which apxs2 2>/dev/null`
-if [ -z "$APXS" ]; then
-  APXS=`which apxs 2>/dev/null`
-fi
-
-if [ -z "$APXS" ]; then
-  if [ -f /usr/sbin/apxs2 ]; then
-    APXS=/usr/sbin/apxs2
-  elif [ -f /usr/sbin/apxs ]; then
-    APXS=/usr/sbin/apxs
+cmd_list="/usr/local/apache2/bin/apxs /usr/sbin/apxs2 /usr/sbin/apxs `which apxs2 2>/dev/null` `which apxs 2>/dev/null`"
+for APXS in $cmd_list
+do
+  if [ -f "$APXS" ]; then
+    break
   fi
+done
+
+if [ -f "$APXS" ]; then
+  $APXS $@
+else
+  echo "apxs command not found." 1>&2
+  exit 127
 fi
 
-$APXS $@
